@@ -1,0 +1,224 @@
+{
+  "level": 2,
+  "title": "The Murder of the Doodh Wala",
+  "tagline": "Audience case: four suspects, one rainy evening at the Moonlight Café.",
+  "setting": "The Moonlight Café, Islamabad, on a rainy evening",
+  "detective": "Sheru Bhai",
+  "intro": "You are Sheru Bhai, Islamabad's most famous detective. At 6:00 PM the Doodh Wala delivered milk to the crowded Moonlight Café. Ten minutes later a scream rang out and he was found dead in the storage room, poisoned. You have locked the doors: nobody leaves until you find the killer. Everyone looks guilty. Question the suspects, clear the innocent, and catch the culprit.",
+  "victim": {
+    "name": "Doodh Wala",
+    "cause": "Poison (a half-finished cup of tea lay beside him)",
+    "time": "6:10 PM"
+  },
+  "max_questions": 20,
+  "killer": "jack",
+  "motives": [
+    "Jack owed the Doodh Wala money",
+    "The Doodh Wala caught Jack stealing and selling expensive coffee beans",
+    "Jack wanted revenge on Darth Vader"
+  ],
+  "correct_motive": 1,
+  "solution": "Jack had been stealing expensive coffee beans from the storage room and selling them elsewhere. The Doodh Wala caught him and planned to tell Mehmood Sahab. Jack loudly complained that his tea was too bitter, then swapped his poisoned cup with the milkman's while chatting with him. He screamed first when the body was found, pointed the finger at Darth Vader, and hoped the black glove would do the rest. The poison bottle in his coat carried his fingerprints.",
+  "suspects": {
+    "mehmood": {
+      "name": "Mehmood Sahab",
+      "role": "Café owner",
+      "emoji": "🧔",
+      "personality": "Flustered and formal, mixes in Urdu words like 'arre', 'bhai' and 'janab'. Gets defensive about money and keeps mentioning the day's earnings.",
+      "knows": [
+        "You argued loudly with the Doodh Wala because you owed him money and shouted that you would pay later.",
+        "You were counting the day's earnings at your table all evening in full view of customers.",
+        "Jack was the first to run into the storage room after the scream."
+      ],
+      "secret": "The café is struggling and you secretly owe the Doodh Wala 40,000 rupees. You ignored him when he said he had something important to tell you about your stock.",
+      "lie": "You claim the argument was a small misunderstanding about the bill.",
+      "image": "/static/img/mehmood.jpg"
+    },
+    "vader": {
+      "name": "Darth Vader",
+      "role": "Customer, sits alone in a dark corner",
+      "emoji": "🖤",
+      "personality": "Deep, slow and ominous. Short dramatic sentences with dry, deadpan humour. Takes his tea very seriously. Calls the detective 'Detective' with menace.",
+      "knows": [
+        "You keep a private tin of dark tea in the storage room and fetched it at about 6:04.",
+        "The Doodh Wala was alive and sipping tea when you left the storage room around 6:06.",
+        "Your black glove slipped off while you were in there."
+      ],
+      "secret": "You are embarrassed that a feared figure like you hides a collection of fancy tea tins in a café storage room.",
+      "lie": "You say you never went anywhere near the storage room, then grudgingly admit it if pressed.",
+      "image": "/static/img/vader.jpg"
+    },
+    "gojo": {
+      "name": "Gojo Satoru",
+      "role": "Customer, sits by the window",
+      "emoji": "😎",
+      "personality": "Cocky, playful and casual. Jokes constantly, acts like nothing can worry him, loves sweets and coffee.",
+      "knows": [
+        "You left for five minutes (about 6:05 to 6:10) to take a call from your sister outside; your phone log proves it.",
+        "Earlier, from your window seat, you saw Jack chatting with the milkman and swapping two teacups, but you thought nothing of it."
+      ],
+      "secret": "The call was about a job offer from a rival café, and you did not want anyone to know.",
+      "lie": "You say you only stepped out 'for some air' and nothing more.",
+      "image": "/static/img/gojo.jpg"
+    },
+    "jack": {
+      "name": "Jack Sparrow",
+      "role": "Customer, tells treasure stories",
+      "emoji": "🏴‍☠️",
+      "personality": "Rambling, witty and theatrical. Says 'mate' and 'savvy?', answers questions with questions or sea stories, always acts relaxed and amused.",
+      "knows": [
+        "You complained loudly that your tea was too bitter and never drank it.",
+        "You were the first into the storage room after the scream and told everyone Vader had been in there."
+      ],
+      "secret": "You poisoned your own cup, swapped it with the milkman's while chatting, and you have been stealing expensive coffee beans that the milkman caught you with.",
+      "lie": "You say you stayed at your table the whole time, barely spoke to the milkman, and that the tea was simply awful.",
+      "cracks_if": [
+        "cup_swap",
+        "beans",
+        "bottle"
+      ],
+      "image": "/static/img/jack.jpg"
+    }
+  },
+  "clues": {
+    "mehmood_alibi": {
+      "suspect": "mehmood",
+      "type": "alibi",
+      "keywords": [
+        "alibi",
+        "where were you",
+        "when it happened",
+        "counting",
+        "earnings",
+        "cash",
+        "table"
+      ],
+      "text": "Mehmood was counting cash at his table in full view of customers from 6:00 to 6:15.",
+      "fact": "I was at my table counting the day's earnings. Half the café saw me, janab!"
+    },
+    "debt": {
+      "suspect": "mehmood",
+      "type": "clue",
+      "keywords": [
+        "argue",
+        "argument",
+        "owe",
+        "money",
+        "payment",
+        "debt",
+        "shout",
+        "fight",
+        "loud"
+      ],
+      "text": "Mehmood owed the milkman money, but the milkman also said he had 'something important about the stock' to tell him.",
+      "fact": "Yes, I owed him money and we shouted. He kept saying he had something important to tell me about my stock, but I was too angry to listen."
+    },
+    "beans": {
+      "suspect": "mehmood",
+      "type": "clue",
+      "keywords": [
+        "coffee",
+        "beans",
+        "stock",
+        "inventory",
+        "missing",
+        "count",
+        "stolen",
+        "steal",
+        "strange",
+        "notice"
+      ],
+      "text": "20 kg of expensive coffee beans are missing from the storage room, a loss the milkman may have noticed.",
+      "fact": "Now that you mention it, I counted 20 kilos of my expensive coffee beans missing today. Somebody has been stealing them!"
+    },
+    "vader_glove": {
+      "suspect": "vader",
+      "type": "alibi",
+      "keywords": [
+        "glove",
+        "storage",
+        "storeroom",
+        "store room",
+        "tin",
+        "black",
+        "enter",
+        "entered",
+        "where were you",
+        "when it happened",
+        "alibi"
+      ],
+      "text": "The black glove is Vader's. He fetched his private tea tin at 6:04 and left at 6:06 with the milkman still alive.",
+      "fact": "The glove is mine. I fetched my private tea tin at 6:04 and left at 6:06. The milkman was alive, sipping his tea."
+    },
+    "vader_accuser": {
+      "suspect": "vader",
+      "type": "clue",
+      "keywords": [
+        "accuse",
+        "blame",
+        "who told",
+        "witness",
+        "scream",
+        "first",
+        "jack",
+        "strange",
+        "notice"
+      ],
+      "text": "It was Jack who first told everyone that Vader entered the storage room, and Jack who reached the body first.",
+      "fact": "It was the pirate who told everyone I entered the storage room. He also reached the body before anyone else."
+    },
+    "gojo_alibi": {
+      "suspect": "gojo",
+      "type": "alibi",
+      "keywords": [
+        "alibi",
+        "where were you",
+        "when it happened",
+        "call",
+        "phone",
+        "outside",
+        "footage",
+        "camera",
+        "five minutes",
+        "disappear"
+      ],
+      "text": "Gojo was outside on a call with his sister from 6:05 to 6:10 (phone log and camera confirm).",
+      "fact": "I was outside on a call with my sister from 6:05 to 6:10. Check my phone and the camera."
+    },
+    "cup_swap": {
+      "suspect": "gojo",
+      "type": "clue",
+      "keywords": [
+        "cup",
+        "cups",
+        "tea",
+        "swap",
+        "switch",
+        "saw",
+        "see",
+        "seen",
+        "strange",
+        "notice",
+        "window",
+        "jack"
+      ],
+      "text": "Gojo saw Jack swap two teacups while chatting with the milkman.",
+      "fact": "From my window seat I saw Jack swap two teacups while chatting with the milkman. I did not think much of it."
+    },
+    "bottle": {
+      "suspect": "jack",
+      "type": "clue",
+      "keywords": [
+        "bottle",
+        "pocket",
+        "coat",
+        "search",
+        "medicine",
+        "poison",
+        "fingerprint"
+      ],
+      "text": "A small poison bottle with Jack's fingerprints was found in his coat pocket.",
+      "fact": "That little bottle? Just a remedy for seasickness, mate. Nothing to see there, savvy?"
+    }
+  }
+}

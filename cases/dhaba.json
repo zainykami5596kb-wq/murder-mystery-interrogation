@@ -1,0 +1,194 @@
+{
+  "title": "Death at the Chai Dhaba",
+  "setting": "A rooftop chai dhaba in F-7, Islamabad, during a power outage",
+  "intro": "Haji Rafiq, the dhaba's owner, collapsed at 9:40 PM after drinking his evening tea. The doctor says poison. The lights were out, four people were on the premises, and one of them is lying. Question the suspects, collect clues, then name the killer and the motive.",
+  "victim": {
+    "name": "Haji Rafiq",
+    "cause": "Poisoned tea",
+    "time": "9:40 PM"
+  },
+  "max_questions": 18,
+  "killer": "bilal",
+  "motives": [
+    "Rafiq planned to sell the dhaba",
+    "Rafiq discovered the manager was stealing from the till",
+    "Rafiq refused to give someone a raise"
+  ],
+  "correct_motive": 1,
+  "solution": "Bilal had been skimming money for months. That afternoon Haji Rafiq found the missing ledger pages and planned to fire him. Bilal bought rat poison, put it in Rafiq's tea, and served it himself at 9:30. His story about counting stock in the storeroom was a lie: the storeroom was padlocked and dark.",
+  "suspects": {
+    "bilal": {
+      "name": "Bilal",
+      "role": "Manager",
+      "emoji": "🧑‍💼",
+      "personality": "Polite, overly helpful, says 'sir' a lot, sweats and rambles when pressed.",
+      "knows": [
+        "Rafiq checked the accounts that afternoon and was in a bad mood.",
+        "Sana, Pappu and Imran were all at the dhaba tonight."
+      ],
+      "secret": "You have been stealing from the till for months, and you poisoned Rafiq's tea with rat poison to stop him exposing you.",
+      "lie": "You claim you were counting stock alone in the storeroom from 9:00 to 10:00.",
+      "cracks_if": [
+        "ledger",
+        "tea",
+        "poison"
+      ]
+    },
+    "sana": {
+      "name": "Sana",
+      "role": "Rafiq's niece, works the counter",
+      "emoji": "👩",
+      "personality": "Sharp, sarcastic, protective of her uncle, speaks quickly.",
+      "knows": [
+        "You love your uncle but argued with him about working late.",
+        "You were on the roof taking a phone call from your mother during the outage."
+      ],
+      "secret": "You were secretly applying for jobs elsewhere because you were tired of the dhaba.",
+      "lie": "You pretend you never had any plans to leave."
+    },
+    "pappu": {
+      "name": "Pappu",
+      "role": "Cook and chai maker",
+      "emoji": "👨‍🍳",
+      "personality": "Old, gentle, speaks slowly in simple words, mixes in a little Urdu like 'ji' and 'sahib'.",
+      "knows": [
+        "You make all the tea, but tonight you were busy with the karahi.",
+        "The kitchen was dark because of the outage."
+      ],
+      "secret": "You were sneaking cigarettes behind the kitchen, which Haji sahib forbade.",
+      "lie": "You say you never left the kitchen."
+    },
+    "imran": {
+      "name": "Imran",
+      "role": "Supplier who delivers milk and supplies",
+      "emoji": "🚚",
+      "personality": "Loud, jokey, defensive when accused, loves to boast about his business.",
+      "knows": [
+        "You were at the dhaba to collect an unpaid bill.",
+        "You sell all kinds of supplies, including pest control items."
+      ],
+      "secret": "Rafiq owed you a lot of money and you argued about it loudly that evening.",
+      "lie": "You say the argument was just friendly bargaining."
+    }
+  },
+  "clues": {
+    "ledger": {
+      "suspect": "sana",
+      "keywords": [
+        "ledger",
+        "account",
+        "money",
+        "books",
+        "till",
+        "stealing",
+        "argue",
+        "argument",
+        "fight",
+        "angry",
+        "furious",
+        "afternoon"
+      ],
+      "text": "Rafiq found money missing from the ledger that afternoon and was furious.",
+      "fact": "That afternoon my uncle found pages missing from the ledger and was furious. He said someone had been stealing from him.",
+      "type": "clue"
+    },
+    "storeroom": {
+      "suspect": "pappu",
+      "keywords": [
+        "storeroom",
+        "store room",
+        "stock",
+        "padlock",
+        "key",
+        "alone",
+        "counting",
+        "bilal"
+      ],
+      "text": "The storeroom was padlocked and dark at 9:30, so nobody was counting stock inside.",
+      "fact": "When I passed the storeroom around 9:30, the padlock was on and the room was dark. Nobody was inside.",
+      "type": "clue"
+    },
+    "tea": {
+      "suspect": "pappu",
+      "keywords": [
+        "tea",
+        "cup",
+        "chai",
+        "served",
+        "who made",
+        "who brought",
+        "strange",
+        "suspicious",
+        "saw",
+        "notice",
+        "drink",
+        "drank"
+      ],
+      "text": "Bilal personally served Rafiq's last cup of tea at 9:30, which he never normally does.",
+      "fact": "Bilal sahib took Haji sahib's tea from the tray and served it himself at 9:30. He never does that.",
+      "type": "clue"
+    },
+    "poison": {
+      "suspect": "imran",
+      "keywords": [
+        "poison",
+        "rat",
+        "pest",
+        "chemical",
+        "pesticide",
+        "sell",
+        "sold",
+        "supplies",
+        "bought"
+      ],
+      "text": "Imran sold rat poison to Bilal last week.",
+      "fact": "I sold rat poison to Bilal last week. He said the dhaba had a rat problem.",
+      "type": "clue"
+    },
+    "imran_alibi": {
+      "suspect": "imran",
+      "keywords": [
+        "alibi",
+        "where were you",
+        "gate",
+        "truck",
+        "guard",
+        "when it happened"
+      ],
+      "text": "Imran was at the gate with his truck until 10 PM (the guard saw him).",
+      "fact": "I was at the front gate with my truck until 10 PM. The guard saw me the whole time.",
+      "type": "alibi"
+    },
+    "sana_alibi": {
+      "suspect": "sana",
+      "keywords": [
+        "alibi",
+        "where were you",
+        "phone",
+        "call",
+        "roof",
+        "when it happened"
+      ],
+      "text": "Sana was on the roof on a phone call with her mother at 9:30 (phone records confirm).",
+      "fact": "I was on the roof on a call with my mother from 9:20 to 9:50. Check my phone.",
+      "type": "alibi"
+    },
+    "pappu_alibi": {
+      "suspect": "pappu",
+      "type": "alibi",
+      "keywords": [
+        "alibi",
+        "where were you",
+        "when it happened",
+        "what were you doing",
+        "stove",
+        "karahi"
+      ],
+      "text": "Pappu was cooking at the stove beside the kitchen boy from 9:15 to 9:40.",
+      "fact": "I was at the stove making karahi with the kitchen boy beside me the whole time. Ask him, ji."
+    }
+  },
+  "level": 1,
+  "tagline": "Demo case: a poisoned cup of chai on a rooftop in F-7.",
+  "detective": "the detective"
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Murder Mystery Interrogation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#101426;--panel:#1b2038;--line:#2e3558;--text:#f2efe6;--dim:#9aa0bd;--gold:#f5b82e;--pink:#ff4f7b;--teal:#19b5a5;--ok:#5fd68a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;line-height:1.5}
+h1,h2{font-family:'Bungee',Impact,sans-serif;font-weight:400;margin:0}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+header{padding:18px 24px;border-bottom:4px solid var(--gold);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:1.4rem;color:var(--gold)}
+#left{background:var(--pink);color:#101426;padding:6px 14px;border-radius:99px;font-weight:600}
+main{display:grid;grid-template-columns:220px 1fr 300px;gap:16px;padding:16px 24px;max-width:1250px;margin:auto}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:12px;padding:14px}
+.panel h2{font-size:1rem;color:var(--teal);margin-bottom:10px}
+.suspect{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:2px solid var(--line);color:var(--text);border-radius:10px;padding:8px;margin-bottom:8px}
+.suspect.on{border-color:var(--gold);background:#262d4d}
+.suspect .e{font-size:1.7rem;display:flex}.suspect .av{width:52px;height:52px;border-radius:12px;flex:none}.suspect small{display:block;color:var(--dim)}
+.suspect .ok{color:var(--ok);font-weight:600}
+#chat{height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px}
+.msg{max-width:85%;padding:8px 12px;border-radius:12px}
+.you{align-self:flex-end;background:var(--teal);color:#101426}
+.them{align-self:flex-start;background:#2a3158}
+.note{color:var(--gold);text-align:center;font-style:italic}
+#chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{background:none;border:1px solid var(--line);color:var(--dim);border-radius:99px;padding:4px 10px;font-size:.85rem}
+.chip:hover:not(:disabled){border-color:var(--gold);color:var(--text)}
+form{display:flex;gap:8px;margin-top:10px}
+input{flex:1;padding:10px;border-radius:8px;border:2px solid var(--line);background:var(--bg);color:var(--text);font:inherit}
+.btn{background:var(--gold);color:#101426;border:0;border-radius:8px;padding:10px 16px;font-weight:600}
+.btn.red{background:var(--pink);width:100%;margin-top:12px}
+.btn:disabled,.chip:disabled{opacity:.5;cursor:not-allowed}
+.board h3{margin:12px 0 6px;font-size:.95rem;color:var(--gold)}
+.board ul{list-style:none;padding:0;margin:0}
+.board li{padding:8px 10px;margin-bottom:6px;border-radius:8px;background:#262d4d;border-left:4px solid var(--teal);font-size:.92rem}
+.board li.alibi{border-left-color:var(--ok)}
+.board li.locked{background:none;border:2px dashed var(--line);color:var(--dim)}
+.board li.fresh{animation:pop .6s}
+@keyframes pop{from{background:var(--gold);color:#101426}}
+@media(prefers-reduced-motion:reduce){.board li.fresh{animation:none}}
+.overlay{position:fixed;inset:0;background:rgba(10,12,24,.94);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
+.overlay[hidden]{display:none}
+.card{background:var(--panel);border:3px solid var(--gold);border-radius:16px;padding:24px;max-width:540px;width:100%;max-height:90vh;overflow:auto}
+.card h2{color:var(--gold);margin-bottom:12px}
+.level{display:block;width:100%;text-align:left;background:var(--bg);color:var(--text);border:2px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.level:hover{border-color:var(--gold)}.level b{font-family:'Bungee',Impact,sans-serif;font-weight:400;color:var(--teal)}
+.level span{display:block;color:var(--dim)}
+select{width:100%;padding:10px;margin:6px 0 14px;border-radius:8px;background:var(--bg);color:var(--text);border:2px solid var(--line);font:inherit}
+label{font-weight:600}
+</style>
+</head>
+<body>
+<header><h1 id="title">Murder Mystery Interrogation</h1><div id="left" hidden></div></header>
+
+<main>
+  <section class="panel"><h2>Suspects</h2><div id="suspects"></div></section>
+  <section class="panel">
+    <h2 id="who">Pick a suspect to question</h2>
+    <div id="chat"></div>
+    <div id="chips"></div>
+    <form id="form"><input id="q" placeholder="Ask your question…" maxlength="300" autocomplete="off" disabled>
+      <button class="btn" id="send" disabled>Ask</button></form>
+  </section>
+  <section class="panel board">
+    <h2>Evidence board</h2>
+    <h3>Alibis</h3><ul id="b-alibi"></ul>
+    <h3>Clues</h3><ul id="b-clue"></ul>
+    <button class="btn red" id="accuseBtn">Make an accusation</button>
+  </section>
+</main>
+
+<div class="overlay" id="select"><div class="card">
+  <h2>Choose a case</h2><div id="levels"></div></div></div>
+
+<div class="overlay" id="intro" hidden><div class="card">
+  <h2 id="iTitle"></h2><p id="iText"></p><p id="iVictim"></p>
+  <button class="btn" id="start">Start investigating</button></div></div>
+
+<div class="overlay" id="accuse" hidden><div class="card">
+  <h2>Who did it?</h2>
+  <label for="aSuspect">The killer is</label><select id="aSuspect"></select>
+  <label for="aMotive">The motive was</label><select id="aMotive"></select>
+  <button class="btn" id="submitAccuse">Accuse</button>
+  <button class="btn" id="cancelAccuse" style="background:var(--line);color:var(--text)">Keep investigating</button>
+</div></div>
+
+<div class="overlay" id="result" hidden><div class="card">
+  <h2 id="rTitle"></h2><p id="rText"></p><p id="rSol"></p>
+  <button class="btn" onclick="location.reload()">Play again</button></div></div>
+
+<script>
+const session = crypto.randomUUID();
+const $ = id => document.getElementById(id);
+const CHIPS = ['Where were you when it happened?', 'Did you argue with the victim?', 'Did you notice anything strange?', 'What do you know about the tea?'];
+let game, current, left = 0, busy = false;
+let chats = {}, found = {alibi: [], clue: []}, cleared = new Set();
+
+async function api(path, body) {
+  const res = await fetch(path, body ? {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({session, ...body})} : undefined);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || 'Something went wrong');
+  return data;
+}
+
+function addMsg(cls, text) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + cls; d.textContent = text;
+  $('chat').appendChild(d); $('chat').scrollTop = 1e6;
+}
+function remember(cls, text) { (chats[current] ||= []).push({cls, text}); addMsg(cls, text); }
+
+function renderBoard(freshId) {
+  for (const t of ['alibi', 'clue']) {
+    const ul = $('b-' + t); ul.innerHTML = '';
+    found[t].forEach(c => {
+      const li = document.createElement('li');
+      li.className = t + (c.id === freshId ? ' fresh' : '');
+      li.textContent = (t === 'alibi' ? '✅ ' : '🔎 ') + c.text;
+      ul.appendChild(li);
+    });
+    for (let i = found[t].length; i < game.totals[t]; i++) {
+      const li = document.createElement('li');
+      li.className = 'locked'; li.textContent = '🔒 Not found yet';
+      ul.appendChild(li);
+    }
+  }
+}
+function renderSuspects() {
+  $('suspects').innerHTML = '';
+  game.suspects.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'suspect' + (s.id === current ? ' on' : '');
+    b.innerHTML = `<span class="e">${s.image ? `<img class="av" src="${s.image}" alt="" onerror="this.outerHTML='${s.emoji}'">` : s.emoji}</span><div>${s.name}<small>${s.role}</small>${cleared.has(s.id) ? '<small class="ok">Alibi checked</small>' : ''}</div>`;
+    b.onclick = () => { current = s.id; $('who').textContent = s.name + ' (' + s.role + ')'; $('chat').innerHTML = ''; (chats[s.id] || []).forEach(m => addMsg(m.cls, m.text)); renderSuspects(); setLeft(left); $('q').focus(); };
+    $('suspects').appendChild(b);
+  });
+}
+function setLeft(n) {
+  left = n; $('left').hidden = false; $('left').textContent = n + ' questions left';
+  const off = !current || n <= 0 || busy;
+  $('q').disabled = $('send').disabled = off;
+  document.querySelectorAll('.chip').forEach(c => c.disabled = off);
+}
+
+async function begin(id) {
+  await api('/api/start', {case: id});
+  game = await api('/api/case/' + id);
+  $('title').textContent = game.title;
+  $('iTitle').textContent = game.title;
+  $('iText').textContent = game.intro;
+  $('iVictim').textContent = `Victim: ${game.victim.name}. Cause: ${game.victim.cause}. Time: ${game.victim.time}.`;
+  game.suspects.forEach(s => $('aSuspect').add(new Option(s.name, s.id)));
+  game.motives.forEach((m, i) => $('aMotive').add(new Option(m, i)));
+  CHIPS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = t;
+    b.onclick = () => { $('q').value = t; $('form').requestSubmit(); };
+    $('chips').appendChild(b);
+  });
+  renderSuspects(); renderBoard(); setLeft(game.max_questions);
+  $('select').hidden = true; $('intro').hidden = false;
+}
+
+$('form').onsubmit = async e => {
+  e.preventDefault();
+  const q = $('q').value.trim(); if (!q || busy) return;
+  $('q').value = ''; busy = true; setLeft(left);
+  remember('you', q);
+  try {
+    const r = await api('/api/ask', {suspect: current, question: q});
+    remember('them', r.reply);
+    r.new_clues.forEach(c => {
+      found[c.type].push(c);
+      if (c.clears) cleared.add(c.clears);
+      renderBoard(c.id);
+      remember('note', (c.type === 'alibi' ? 'New alibi' : 'New clue') + ' added to the evidence board.');
+    });
+    renderSuspects(); left = r.left;
+    if (r.left <= 0) remember('note', 'No questions left. Time to make your accusation.');
+  } catch (err) { remember('note', err.message); }
+  busy = false; setLeft(left);
+};
+
+$('start').onclick = () => $('intro').hidden = true;
+$('accuseBtn').onclick = () => $('accuse').hidden = false;
+$('cancelAccuse').onclick = () => $('accuse').hidden = true;
+$('submitAccuse').onclick = async () => {
+  const r = await api('/api/accuse', {suspect: $('aSuspect').value, motive: +$('aMotive').value});
+  $('accuse').hidden = true; $('result').hidden = false;
+  $('rTitle').textContent = r.win ? 'Case closed: ' + r.rank : 'Wrong accusation';
+  $('rText').textContent = r.win
+    ? `You solved it in ${r.questions_used} questions.`
+    : `${r.right_killer ? 'You named the right killer but the wrong motive.' : 'You accused the wrong person.'} The real killer was ${r.killer}.`;
+  $('rSol').textContent = r.solution;
+};
+
+api('/api/cases').then(list => list.forEach(c => {
+  const b = document.createElement('button');
+  b.className = 'level';
+  b.innerHTML = `<b>Level ${c.level}: ${c.title}</b><span>${c.tagline}</span>`;
+  b.onclick = () => begin(c.id);
+  $('levels').appendChild(b);
+})).catch(e => $('levels').textContent = 'Error: ' + e.message);
+</script>
+</body>
+</html>
